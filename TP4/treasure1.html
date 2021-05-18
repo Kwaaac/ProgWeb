@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        div.row {
+            clear: both;
+        }
+
+        div.row div {
+            padding: 5px;
+            margin: 2px;
+            width: 20px;
+            background-color: lightgray;
+            float: left;
+        }
+    </style>
+    <script>
+        "use strict";
+
+        function print_game() {
+            /*
+            let rows = game.children;
+            for (let i = 0; i < rows.length; i++) {
+                for (let j = 0; j < rows[i].children.length; j++) {
+                    console.log(rows[i].children[j].innerText + " (" + i + ", " + j + ")");
+                }
+            }
+             */
+
+            Array.from(game.children).forEach(function (row, i) {
+                Array.from(row.children).forEach(function (grid_case, j) {
+                    console.log(grid_case.innerText + " (" + i + ", " + j + ")");
+                })
+            })
+        }
+
+        function activate_onclick_on_grid() {
+            Array.from(game.children).forEach(function (row, i) {
+                Array.from(row.children).forEach(function (grid_case, j) {
+                    grid_case.onclick = () => {
+                        findTreasure(treasures, i, j) ?
+                            grid_case.style.backgroundColor = "green" :
+                            grid_case.style.backgroundColor = "red"
+
+                        // grid_case.onclick = () => console.log("Vous avez déjà fouillé cette case"); ancien truc à peu près horrible
+                        grid_case.style.pointerEvents = "none"
+                    }
+                })
+            })
+        }
+
+        function createTreasures() {
+            let treasures_tab = [];
+            for (let i = 0; i < 10; i++) {
+                let treasure = {row: Math.floor(Math.random() * 8), col: Math.floor(Math.random() * 8)};
+                treasures_tab.push(treasure);
+            }
+
+            return treasures_tab;
+        }
+
+        var treasures = createTreasures();
+
+        function findTreasure(treasures, w, y) {
+            return !(treasures.filter(tr => tr.row === w && tr.col === y).length === 0);
+        }
+
+        console.log(treasures);
+
+        window.onload = function () {
+            console.log("onload !");
+            var game = document.getElementById("game");
+
+            activate_onclick_on_grid(game);
+
+            // print_game(game);
+
+        };
+
+
+    </script>
+</head>
+<body>
+<h2>Treasure Map</h2>
+<div id="game">
+    <div class="row">
+        <div>0</div>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+    </div>
+    <div class="row">
+        <div>8</div>
+        <div>9</div>
+        <div>10</div>
+        <div>11</div>
+        <div>12</div>
+        <div>13</div>
+        <div>14</div>
+        <div>15</div>
+    </div>
+    <div class="row">
+        <div>16</div>
+        <div>17</div>
+        <div>18</div>
+        <div>19</div>
+        <div>20</div>
+        <div>21</div>
+        <div>22</div>
+        <div>23</div>
+    </div>
+    <div class="row">
+        <div>24</div>
+        <div>25</div>
+        <div>26</div>
+        <div>27</div>
+        <div>28</div>
+        <div>29</div>
+        <div>30</div>
+        <div>31</div>
+    </div>
+    <div class="row">
+        <div>32</div>
+        <div>33</div>
+        <div>34</div>
+        <div>35</div>
+        <div>36</div>
+        <div>37</div>
+        <div>38</div>
+        <div>39</div>
+    </div>
+    <div class="row">
+        <div>40</div>
+        <div>41</div>
+        <div>42</div>
+        <div>43</div>
+        <div>44</div>
+        <div>45</div>
+        <div>46</div>
+        <div>47</div>
+    </div>
+    <div class="row">
+        <div>48</div>
+        <div>49</div>
+        <div>50</div>
+        <div>51</div>
+        <div>52</div>
+        <div>53</div>
+        <div>54</div>
+        <div>55</div>
+    </div>
+    <div class="row">
+        <div>56</div>
+        <div>57</div>
+        <div>58</div>
+        <div>59</div>
+        <div>60</div>
+        <div>61</div>
+        <div>62</div>
+        <div>63</div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        div.row {
+            clear: both;
+        }
+
+        div.row img {
+            width: 30px;
+            padding: 1px;
+            float: left;
+        }
+
+        div.row .sand {
+            content: url("img/sand.png");
+        }
+
+        div.row .chest {
+            content: url("img/sand-chest.png");
+        }
+
+        div.row .hole {
+            content: url("img/sand-hole.png");
+        }
+
+    </style>
+    <script>
+        "use strict";
+
+        class GameState {
+            constructor(height, width) {
+                /*
+                let treasures = [];
+                for (let i = 0; i < 10; i++) {
+                    let treasure = {row: Math.floor(Math.random() * height), col: Math.floor(Math.random() * width)};
+                    treasures.push(treasure);
+                }
+                this.treasures = treasures;
+                 */
+
+                let treasures = new Set();
+
+                for (let i = 0; i < (height * width) / 7; i++) {
+                    let tr = Math.floor(Math.random() * height) + "x" + Math.floor(Math.random() * width);
+                    while (treasures.has(tr)) {
+                        tr = Math.floor(Math.random() * height) + "x" + Math.floor(Math.random() * width);
+                    }
+                    treasures.add(tr);
+                }
+
+                this.treasures = treasures;
+            }
+
+            findTreasure(w, y) {
+                return this.treasures.has(w + "x" + y);
+            }
+
+            toString() {
+
+            }
+        }
+
+        function create_DOM_game(game_state, height, width) {
+            let game = document.getElementById("game");
+
+
+            for (let i = 0; i < height; i++) {
+                let row = document.createElement("div");
+                row.classList.add("row");
+
+                for (let j = 0; j < width; j++) {
+                    let grid_case = document.createElement("img");
+                    grid_case.innerText = (i * (j + 1) + j).toString();
+
+                    /*
+                    grid_case.onclick = () => {
+                        game_state.findTreasure(i, j) ?
+                            grid_case.style.backgroundColor = "green" :
+                            grid_case.style.backgroundColor = "red"
+
+                       // grid_case.onclick = () => console.log("Vous avez déjà fouillé cette case"); ancien truc à peu près horrible
+                        grid_case.style.pointerEvents = "none"
+                    }
+                    */
+
+                    grid_case.onclick = () => {
+                        grid_case.classList.remove("sand")
+                        game_state.findTreasure(i, j) ?
+                            grid_case.classList.add("chest") :
+                            grid_case.classList.add("hole")
+
+                        // grid_case.onclick = () => console.log("Vous avez déjà fouillé cette case"); ancien truc à peu près horrible
+                        grid_case.style.pointerEvents = "none"
+                    }
+
+                    grid_case.classList.add("sand");
+
+                    row.appendChild(grid_case);
+                }
+                game.appendChild(row);
+            }
+        }
+
+        window.onload = function () {
+            const width = 8;
+            const height = 8;
+            let game_state = new GameState(height, width);
+            create_DOM_game(game_state, height, width);
+        }
+
+    </script>
+</head>
+<body>
+<h2>Treasure Map (2)</h2>
+<div id="game">
+</div>
+</body>
+</html>
